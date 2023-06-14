@@ -1,0 +1,13 @@
+---
+- name: daemon reload
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Give full permissions 
+  ansible.builtin.file:
+    path: "{{ home_dir }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: "0777"
+    state: directory
+    recurse: yes

@@ -1,0 +1,61 @@
+---
+- name: Install dotnet 7
+  ansible.builtin.apt:
+    name: "{{ dotnet }}"
+    update_cache: yes   
+    state: present 
+
+- name: Create group
+  ansible.builtin.group:
+    name: "{{ group }}"
+    state: present
+    
+- name: Create user
+  ansible.builtin.user:
+    name: "{{ user }}"
+    group: "{{ group }}"
+    create_home: true
+    home: "{{ home_dir }}"
+
+- name: Download NopCommerce 
+  ansible.builtin.get_url:
+    url: "{{ nop_url }}"
+    dest: "{{ home_dir }}"
+ 
+- name: Install unzip
+  ansible.builtin.apt:
+    name: unzip
+    update_cache: yes   
+    state: present 
+    
+- name: Check if NopCommerce is already extracted
+  ansible.builtin.stat:
+    path: "{{ home_dir }}/Nop.Web.dll"
+  register: nop_info
+
+- name: Unzip NopCommerce 
+  ansible.builtin.unarchive:
+    src: "{{ home_dir }}/{{ zip_url }}"
+    dest: "{{ home_dir }}"
+    remote_src: yes
+  when: not nop_info.stat.exists
+    
+- name: Create bin and logs folder
+  ansible.builtin.file:
+    path: 
+      - "{{ home_dir }}/bin"
+      - "{{ home_dir }}/logs"
+    state: directory
+  notify:  Give full permissions 
+
+- name: Copy nop.service file
+  ansible.builtin.template:
+    src: nop.service.j2
+    dest: /etc/systemd/system/nop.service
+  notify: daemon reload
+
+- name: Enable and start nop.service
+  ansible.builtin.service:
+    name: nop
+    enabled: true
+    state: started

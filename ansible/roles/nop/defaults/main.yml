@@ -1,0 +1,9 @@
+---
+dotnet: dotnet-sdk-7.0
+group: nop
+user: nop
+home_dir: /nop
+zip_url: nopCommerce_4.60.3_NoSource_linux_x64.zip
+nop_url: https://github.com/nopSolutions/nopCommerce/releases/download/release-4.60.3/{{ zip_url }}
+
+

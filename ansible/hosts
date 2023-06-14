@@ -1,0 +1,12 @@
+[ubuntu]
+UBUNTU ansible_host=10.3.0.5
+
+[centos]
+CENTOS ansible_host=10.3.0.6
+
+[control]
+CONTROL ansible_host=localhost
+
+[webservers]
+UBUNTU ansible_host=10.3.0.5
+CENTOS ansible_host=10.3.0.6
