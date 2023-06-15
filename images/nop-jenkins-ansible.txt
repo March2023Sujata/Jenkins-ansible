@@ -1,0 +1,103 @@
+https://devopsquare.com/how-to-run-an-ansible-playbook-using-jenkins-191e2b349bff
+----------------------------------------------------------------------------------
+
+jenkins setup
+
+master----------(jenkins installed)
+node-ansi-ctrl--(ansible installed)
+node-role-------(playbook to be installed))
+
+
+install java in ansible-control-node
+
+create same user in both ansible + playbook node
+in both vms
+(for creation of service account)
+
+sudo adduser devops
+(pass= devops)
+sudo vi /etc/sudoers
+devops ALL=(ALL:ALL) NOPASSWD:ALL
+
+exit
+
+ssh devops@<ip>
+
+ansible control node
+------------
+ssh-keygen 
+ls ~/.ssh/
+
+ssh-copy-id devops@<private ip of node-1>
+ssh-copy-id devops@10.1.0.6
+
+ssh <private ip of node-1>
+ssh 10.1.0.6
+or
+ssh <name of node-1>
+ssh ansible-node1
+
+Installing ansible only in control node 
+--------------------------------------
+whereis python3
+python3 --version
+
+sudo apt update
+sudo apt install software-properties-common -y
+sudo add-apt-repository --yes --update ppa:ansible/ansible
+sudo apt install ansible -y
+ansible --version
+
+
+Now add inventory.
+------------------
+mkdir inventory
+cd inventory
+vi hosts
+<enter private ip or name of the node1>
+
+(Check connectivity by executing)
+ansible -m ping -i hosts all
+
+
+------------------------------------------------------------------------------------------------------------
+C:\Sujata\Quality_Thought\Notes\app-k8s-deploy-AKS\cicd-jenkinsSetup.txt
+
+
+1st
+----------------------------------------------------------------------------
+Install ansible in jenkins-node
+
+C:\Sujata\Quality_Thought\Notes\Ansible\Ansible-June2023\ansible-setup.txt
+
+-----------------------------------------------------------------------------
+
+install ansible in node
+install mysql role in ansible control node
+ansible-galaxy install geerlingguy.mysql
+
+--------------------------------------------------------------------------------
+
+
+
+
+
+
+extras
+------
+or create a new repository on the command line
+---------------------------------------------
+echo "# Jenkins-ansible" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/March2023Sujata/Jenkins-ansible.git
+git push -u origin main
+
+
+or push an existing repository from the command line
+---------------------------------------------------------------------
+git remote add origin https://github.com/March2023Sujata/Jenkins-ansible.git
+git branch -M main
+git push -u origin main
