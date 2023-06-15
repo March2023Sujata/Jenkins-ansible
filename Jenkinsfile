@@ -1,5 +1,5 @@
 pipeline{
-    agent { label 'Node'}
+    agent { label 'Ansible-node'}
     stages{
         stage('VCS'){
             steps{
